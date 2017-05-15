@@ -44,13 +44,15 @@ def previewOn():
     takePhotos()
 
 def takePhotos():
-    timestamp = datetime.now().strftime('%d%m%Y-%H%M%S') # create datetime for file naming
+    print('takePhotos started')
+    timestamp = datetime.datetime.now().strftime('%d%m%Y-%H%M%S') # create datetime for file naming
+    print(timestamp)
 
     camera.annotate_foreground = Color(text_color)
     camera.annotate_background = Color(bg_color)
     camera.annotate_text_size = text_size
     camera.annotate_text = 'Get Ready!'
-    sleep(3)
+    sleep(2)
     camera.annotate_text = 'Photos taken after {}s countdown'.format(countdown)
     sleep(3)
     for x in range(1,total_photos + 1):
@@ -59,11 +61,12 @@ def takePhotos():
             camera.annotate_text = '{}...'.format(count)
             sleep(1)
             count = count - 1
-        print('Taking photo {} - img'.format(x) + datetime + '-{}.jpg'.format(x))
+        print('Taking photo {} - img'.format(x) + timestamp + '-{}.jpg'.format(x))
         camera.annotate_text = ''
         red_led.on()
         sleep(1)
-        camera.capture('/home/pi/captures/img' + datetime + '-{}.jpg'.format(x))
+        red_led.off()
+        camera.capture('/home/pi/captures/img' + timestamp + '-{}.jpg'.format(x))
         sleep(1)
     camera.annotate_text = 'All Done! Resetting...'
     print('Restarting')
