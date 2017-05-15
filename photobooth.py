@@ -45,38 +45,36 @@ def previewOn():
     takePhotos()
 
 def takePhotos():
-    timestamp = datetime.now().strftime('%d%m%Y-%H%M%S') # create datetime for file naming
+    try:
+        timestamp = datetime.now().strftime('%d%m%Y-%H%M%S') # create datetime for file naming
 
-    camera.annotate_foreground = Color(text_color)
-    camera.annotate_background = Color(bg_color)
-    camera.annotate_text_size = text_size
-    camera.annotate_text = 'Get Ready!'
-    sleep(2)
-    camera.annotate_text = 'Photos taken after {}s countdown'.format(countdown)
-    sleep(3)
-    for x in range(1,total_photos + 1):
-        count = 3
-        for i in range(1,countdown + 1):
-            camera.annotate_text = '{}...'.format(count)
+        camera.annotate_foreground = Color(text_color)
+        camera.annotate_background = Color(bg_color)
+        camera.annotate_text_size = text_size
+        camera.annotate_text = 'Get Ready!'
+        sleep(2)
+        camera.annotate_text = 'Photos taken after {}s countdown'.format(countdown)
+        sleep(3)
+        for x in range(1,total_photos + 1):
+            count = 3
+            for i in range(1,countdown + 1):
+                camera.annotate_text = '{}...'.format(count)
+                sleep(1)
+                count = count - 1
+            print('Taking photo {} - img'.format(x) + timestamp + '-{}.jpg'.format(x))
+            camera.annotate_text = ''
+            red.on()
             sleep(1)
-            count = count - 1
-        print('Taking photo {} - img'.format(x) + timestamp + '-{}.jpg'.format(x))
+            red.off()
+            camera.capture('/home/pi/captures/img' + timestamp + '-{}.jpg'.format(x))
+            sleep(1)
+        green.on()
+        camera.annotate_text = 'All Done! Resetting...'
+        print('Restarting')
+        sleep(reset_delay)
         camera.annotate_text = ''
-        red.on()
-        sleep(1)
-        red.off()
-        camera.capture('/home/pi/captures/img' + timestamp + '-{}.jpg'.format(x))
-        sleep(1)
-    green.on()
-    camera.annotate_text = 'All Done! Resetting...'
-    print('Restarting')
-    sleep(reset_delay)
-    camera.annotate_text = ''
-    green.off()
-    previewOff()
-
-def previewOff():
-    camera.stop_preview()
-    print('Camera preview turned off')
+        green.off()
+    finally:
+        camera.close()
 
 previewOn()
