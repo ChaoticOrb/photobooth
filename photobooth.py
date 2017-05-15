@@ -6,7 +6,7 @@
 from picamera import PiCamera, Color
 from time import sleep
 from datetime import datetime
-from gpiozero import Button, Led
+from gpiozero import Button, LED
 
 #############################
 # variables config
@@ -15,7 +15,8 @@ camera = PiCamera()
 
 
 yellow_button = Button(17) # pin for the start Button
-red_led = LED(27) # red led
+red = LED(27) # red led
+green = LED(22)
 
 total_photos = 3 # total number of photos to take
 capture_delay = 1 # delay between taking photos
@@ -28,7 +29,7 @@ text_color = '#fff' # colour of annotated text
 bg_color = '#000' # colour of annotated text background
 test_server = 'www.google.com' # server location to check for network
 reset_delay = 5
-upsidedown = False # change if camera is mounted upside down
+
 
 #############################
 # functions
@@ -37,16 +38,14 @@ def previewOn():
     camera.resolution = (res_w, res_h)
     camera.framerate = framerate
     camera.start_preview()
-    camera.vflip = upsidedown
+    camera.vflip = False # change if camera is mounted upside down
     print('Camera preview turned on')
     yellow_button.wait_for_press()
     print('Button pressed')
     takePhotos()
 
 def takePhotos():
-    print('takePhotos started')
-    timestamp = datetime.datetime.now().strftime('%d%m%Y-%H%M%S') # create datetime for file naming
-    print(timestamp)
+    timestamp = datetime.now().strftime('%d%m%Y-%H%M%S') # create datetime for file naming
 
     camera.annotate_foreground = Color(text_color)
     camera.annotate_background = Color(bg_color)
@@ -63,15 +62,17 @@ def takePhotos():
             count = count - 1
         print('Taking photo {} - img'.format(x) + timestamp + '-{}.jpg'.format(x))
         camera.annotate_text = ''
-        red_led.on()
+        red.on()
         sleep(1)
-        red_led.off()
+        red.off()
         camera.capture('/home/pi/captures/img' + timestamp + '-{}.jpg'.format(x))
         sleep(1)
+    green.on()
     camera.annotate_text = 'All Done! Resetting...'
     print('Restarting')
     sleep(reset_delay)
     camera.annotate_text = ''
+    green.off()
     previewOff()
 
 def previewOff():
