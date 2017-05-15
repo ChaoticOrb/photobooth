@@ -23,7 +23,6 @@ capture_delay = 1 # delay between taking photos
 countdown = 1 # countdown for each photo
 res_w = 2592 # width of camera resolution (max is 2592)
 res_h = 1944 # height of camera resolution (max is 1944)
-framerate = 15 # framerate of camera (must be at 15 for highest resolution)
 text_size = 140 # size of annotated text
 text_color = '#fff' # colour of annotated text
 bg_color = '#000' # colour of annotated text background
@@ -35,10 +34,9 @@ reset_delay = 5
 # functions
 #############################
 def previewOn():
-    camera.resolution = (res_w, res_h)
-    camera.framerate = framerate
-    camera.start_preview()
     camera.vflip = False # change if camera is mounted upside down
+    camera.resolution = camera.MAX_RESOLUTION
+    camera.start_preview(resolution=(1024, 768))
     print('Camera preview turned on')
     yellow_button.wait_for_press()
     print('Button pressed')
