@@ -40,7 +40,7 @@ def previewOn():
     takePhotos()
 
 def takePhotos():
-    datetime = datetime.now().strftime('%d%m%Y-%H%M%S') # create datetime for file naming
+    timestamp = datetime.now().strftime('%d%m%Y-%H%M%S') # create datetime for file naming
 
     camera.annotate_foreground = Color(text_color)
     camera.annotate_background = Color(bg_color)
