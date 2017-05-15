@@ -1,7 +1,7 @@
 
 #############################
 # photobooth.py
-# created by Joe Rearden
+# created by ChaoticOrb
 #############################
 from picamera import PiCamera, Color
 from time import sleep
