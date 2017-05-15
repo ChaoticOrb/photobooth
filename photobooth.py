@@ -6,13 +6,17 @@
 from picamera import PiCamera, Color
 from time import sleep
 from datetime import datetime
-from gpiozero import Button
+from gpiozero import Button, Led
 
 #############################
 # variables config
 #############################
 camera = PiCamera()
+
+
 yellow_button = Button(17) # pin for the start Button
+red_led = LED(27) # red led
+
 total_photos = 3 # total number of photos to take
 capture_delay = 1 # delay between taking photos
 countdown = 1 # countdown for each photo
@@ -57,6 +61,8 @@ def takePhotos():
             count = count - 1
         print('Taking photo {} - img'.format(x) + datetime + '-{}.jpg'.format(x))
         camera.annotate_text = ''
+        red_led.on()
+        sleep(1)
         camera.capture('/home/pi/captures/img' + datetime + '-{}.jpg'.format(x))
         sleep(1)
     camera.annotate_text = 'All Done! Resetting...'
