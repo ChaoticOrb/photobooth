@@ -17,7 +17,7 @@ camera = PiCamera()
 
 yellow_button = Button(17) # pin for the start Button
 # red = LED(27) # red led
-leds = LEDBoard(22, 27, 13)
+leds = LEDBoard(22, 27, 5)
 
 total_photos = 3 # total number of photos to take
 capture_delay = 3 # delay between taking photos
@@ -66,9 +66,6 @@ def takePhotos():
                 sleep(1)
                 count = count - 1
             camera.annotate_text = ''
-            red.on()
-            sleep(1)
-            red.off()
             print('Taking photo {} - img'.format(x) + timestamp + '-{}.jpg'.format(x))
             camera.capture('/home/pi/captures/img' + timestamp + '-{}.jpg'.format(x))
             sleep(1)
