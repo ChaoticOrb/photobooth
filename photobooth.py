@@ -17,14 +17,14 @@ camera = PiCamera()
 
 yellow_button = Button(17) # pin for the start Button
 # red = LED(27) # red led
-leds = LEDBoard(22, 27, 5)
+leds = LEDBoard(27, 22, 5)
 
 total_photos = 3 # total number of photos to take
 capture_delay = 3 # delay between taking photos
 countdown = 3 # countdown for each photo
 res_w = 800 # width of camera resolution (max is 2592)
 res_h = 480 # height of camera resolution (max is 1944)
-text_size = 80 # size of annotated text
+text_size = 30 # size of annotated text
 text_color = '#fff' # colour of annotated text
 bg_color = '#000' # colour of annotated text background
 test_server = 'www.google.com' # server location to check for network
@@ -35,9 +35,12 @@ reset_delay = 5
 # functions
 #############################
 def fireUp():
+    leds.off()
     # show image about pressing the button
+    print('Push the button')
     yellow_button.wait_for_press()
     print('Button pressed')
+    sleep(1)
     previewOn()
 
 def previewOn():
@@ -55,9 +58,9 @@ def takePhotos():
         camera.annotate_background = Color(bg_color)
         camera.annotate_text_size = text_size
         camera.annotate_text = 'Get Ready!'
-        sleep(1)
+        sleep(2)
         camera.annotate_text = 'Photos taken after {}s countdown'.format(countdown)
-        sleep(1)
+        sleep(2)
         # photo loop starts
         for x in range(1,total_photos + 1):
             count = 3
@@ -69,21 +72,22 @@ def takePhotos():
             print('Taking photo {} - img'.format(x) + timestamp + '-{}.jpg'.format(x))
             camera.capture('/home/pi/captures/img' + timestamp + '-{}.jpg'.format(x))
             sleep(1)
-            resetCamera() # reset camera
+        resetCamera() # reset camera
     finally:
         camera.close()
 
 def resetCamera():
     camera.annotate_text = 'Saving...'
-    LEDBoard(1,0,0)
+    leds.value = (1,0,0)
     sleep(1)
-    LEDBoard(1,1,0)
+    leds.value = (1,1,0)
     sleep(1)
-    LEDBoard(1,1,1)
-    leds.blink()
-    sleep(2)
+    leds.value = (1,1,1)
+    sleep(1)
     camera.annotate_text = 'Resetting...'
-    print('Restarting')
+    print('Resetting')
+    leds.blink(n=3)
+    sleep(2)
     sleep(reset_delay)
     camera.annotate_text = ''
 
