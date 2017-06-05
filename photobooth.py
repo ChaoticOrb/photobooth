@@ -6,12 +6,13 @@
 # created by ChaoticOrb
 #############################
 from picamera import PiCamera, Color
+import pygame
 from time import sleep
 from datetime import datetime
 from gpiozero import Button, LED, LEDBoard
 
 #############################
-# variables config
+# variables setup
 #############################
 camera = PiCamera()
 
@@ -29,6 +30,16 @@ text_color = '#fff' # colour of annotated text
 bg_color = '#000' # colour of annotated text background
 test_server = 'www.google.com' # server location to check for network
 reset_delay = 5
+save_path = '/home/pi/captures/'
+instruction_path = '/home/pi/github/photobooth/'
+
+# get pygame ready
+pygame.init()
+res_w = 800 # width of camera resolution (max is 2592)
+res_h = 480 # height of camera resolution (max is 1944)
+img = pygame.display.set_mode((res_w,res_h), pygame.FULLSCREEN)
+screen = pygame.display.get_surface()
+pygame.mouse.set_visible(False)
 
 
 #############################
@@ -37,9 +48,11 @@ reset_delay = 5
 def fireUp():
     leds.off()
     # show image about pressing the button
-    print('Push the button')
-    yellow_button.wait_for_press()
+    print('Push the button instruction')
+    displayInstructions(instruction_path + 'button_push.png')
+    yellow_button.wait_for_press() # wait for the button to be pressed
     print('Button pressed')
+    clearInstructions()
     sleep(1)
     previewOn()
 
@@ -69,8 +82,8 @@ def takePhotos():
                 sleep(1)
                 count = count - 1
             camera.annotate_text = ''
-            print('Taking photo {} - img'.format(x) + timestamp + '-{}.jpg'.format(x))
-            camera.capture('/home/pi/captures/img' + timestamp + '-{}.jpg'.format(x))
+            print('Taking photo {} - '.format(x) + timestamp + '-{}.jpg'.format(x))
+            camera.capture(save_path + timestamp + '-{}.jpg'.format(x))
             sleep(1)
         resetCamera() # reset camera
     finally:
@@ -90,6 +103,18 @@ def resetCamera():
     sleep(2)
     sleep(reset_delay)
     camera.annotate_text = ''
+
+def displayInstructions(instruction_file): # load, convert and display the instructions file
+    img = pygame.image.load(instruction_file).convert()
+    screen.blit(img,(0,0))
+    pygame.display.flip() # updates the whole screen
+
+def clearInstructions():
+    screen.fill( (0,0,0) ) # fill screen with black
+	pygame.display.flip()
+
+def cleanUp():
+    # add clean up actions
 
 #############################
 # main programme
