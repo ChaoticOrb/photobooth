@@ -45,18 +45,7 @@ pygame.mouse.set_visible(False)
 #############################
 # functions
 #############################
-
-# allows keyboard escape of pygame
-def input(events):
-    for event in events:
-        if(event.type == QUIT) or
-            (event.type == KEYDOWN and event.key == K_ESCAPE)):
-            pygame.quit()
-
 def fireUp():
-
-    input(pygame.event.get())
-
     leds.off()
     # show image about pressing the button
     print('Push the button instruction')
@@ -64,9 +53,9 @@ def fireUp():
     yellow_button.wait_for_press() # wait for the button to be pressed
     print('Button pressed')
     displayInstructions(instruction_path + 'countdown_explanation.png')
-    sleep(3)
+    sleep(5)
     displayInstructions(instruction_path + 'get_posed.png')
-    sleep(3)
+    sleep(5)
     clearInstructions()
     sleep(1)
     previewOn()
@@ -101,7 +90,6 @@ def takePhotos():
         resetCamera() # reset camera
 
 def resetCamera():
-	input(pygame.event.get()) # press escape to exit pygame. Then press ctrl-c to exit python.
     displayInstructions(instruction_path + 'all_done.png')
     leds.value = (1,0,0)
     sleep(1)
