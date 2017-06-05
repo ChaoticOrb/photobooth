@@ -25,7 +25,7 @@ capture_delay = 3 # delay between taking photos
 countdown = 3 # countdown for each photo
 res_w = 800 # width of camera resolution (max is 2592)
 res_h = 480 # height of camera resolution (max is 1944)
-text_size = 30 # size of annotated text
+text_size = 60 # size of annotated text
 text_color = '#fff' # colour of annotated text
 bg_color = '#000' # colour of annotated text background
 test_server = 'www.google.com' # server location to check for network
@@ -52,9 +52,14 @@ def fireUp():
     displayInstructions(instruction_path + 'button_push.png')
     yellow_button.wait_for_press() # wait for the button to be pressed
     print('Button pressed')
+    displayInstructions(instruction_path + 'countdown_explanation.png')
+    sleep(3)
+    displayInstructions(instruction_path + 'get_posed.png')
+    sleep(3)
     clearInstructions()
     sleep(1)
     previewOn()
+
 
 def previewOn():
     camera.vflip = False # change if camera is mounted upside down
@@ -66,15 +71,9 @@ def previewOn():
 def takePhotos():
     try:
         timestamp = datetime.now().strftime('%d%m%Y-%H%M%S') # create datetime for file naming
-
         camera.annotate_foreground = Color(text_color)
         camera.annotate_background = Color(bg_color)
         camera.annotate_text_size = text_size
-        displayInstructions(instruction_path + 'countdown_explanation.png')
-        sleep(1)
-        displayInstructions(instruction_path + 'get_posed.png')
-        sleep(2)
-        clearInstructions()
         # photo loop starts
         for x in range(1,total_photos + 1):
             count = 3
@@ -86,12 +85,12 @@ def takePhotos():
             print('Taking photo {} - '.format(x) + timestamp + '-{}.jpg'.format(x))
             camera.capture(save_path + timestamp + '-{}.jpg'.format(x))
             sleep(1)
-        resetCamera() # reset camera
     finally:
         camera.close()
+        resetCamera() # reset camera
 
 def resetCamera():
-    displayInstructions(instruction_path + 'all_done')
+    displayInstructions(instruction_path + 'all_done.png')
     leds.value = (1,0,0)
     sleep(1)
     leds.value = (1,1,0)
@@ -101,7 +100,8 @@ def resetCamera():
     print('Resetting...')
     leds.blink(n=3)
     sleep(reset_delay)
-    clearInstructions()
+    pygame.quit()
+    # instead of killing pygame need to find a reset option
 
 
 def displayInstructions(instruction_file): # load, convert and display the instructions file
@@ -111,7 +111,7 @@ def displayInstructions(instruction_file): # load, convert and display the instr
 
 def clearInstructions():
     screen.fill( (0,0,0) ) # fill screen with black
-	pygame.display.flip()
+    pygame.display.flip()
 
 
 #############################
