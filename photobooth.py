@@ -70,10 +70,11 @@ def takePhotos():
         camera.annotate_foreground = Color(text_color)
         camera.annotate_background = Color(bg_color)
         camera.annotate_text_size = text_size
-        camera.annotate_text = 'Get Ready!'
+        displayInstructions(instruction_path + 'countdown_explanation.png')
+        sleep(1)
+        displayInstructions(instruction_path + 'get_posed.png')
         sleep(2)
-        camera.annotate_text = 'Photos taken after {}s countdown'.format(countdown)
-        sleep(2)
+        clearInstructions()
         # photo loop starts
         for x in range(1,total_photos + 1):
             count = 3
@@ -90,19 +91,18 @@ def takePhotos():
         camera.close()
 
 def resetCamera():
-    camera.annotate_text = 'Saving...'
+    displayInstructions(instruction_path + 'all_done')
     leds.value = (1,0,0)
     sleep(1)
     leds.value = (1,1,0)
     sleep(1)
     leds.value = (1,1,1)
     sleep(1)
-    camera.annotate_text = 'Resetting...'
-    print('Resetting')
+    print('Resetting...')
     leds.blink(n=3)
-    sleep(2)
     sleep(reset_delay)
-    camera.annotate_text = ''
+    clearInstructions()
+
 
 def displayInstructions(instruction_file): # load, convert and display the instructions file
     img = pygame.image.load(instruction_file).convert()
@@ -113,8 +113,6 @@ def clearInstructions():
     screen.fill( (0,0,0) ) # fill screen with black
 	pygame.display.flip()
 
-def cleanUp():
-    # add clean up actions
 
 #############################
 # main programme
