@@ -86,7 +86,6 @@ def takePhotos():
             camera.capture(save_path + timestamp + '-{}.jpg'.format(x))
             sleep(1)
     finally:
-        camera.close()
         resetCamera() # reset camera
 
 def resetCamera():
@@ -111,6 +110,10 @@ def displayInstructions(instruction_file): # load, convert and display the instr
 def clearInstructions():
     screen.fill( (0,0,0) ) # fill screen with black
     pygame.display.flip()
+
+def closeEverything():
+    camera.close()
+    pygame.quit()
 
 
 fireUp()
