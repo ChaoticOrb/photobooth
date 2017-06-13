@@ -86,6 +86,7 @@ def takePhotos():
             camera.capture(save_path + timestamp + '-{}.jpg'.format(x))
             sleep(1)
     finally:
+        camera.stop_preview()
         resetCamera() # reset camera
 
 def resetCamera():
@@ -96,6 +97,7 @@ def resetCamera():
     sleep(1)
     leds.value = (1,1,1)
     sleep(1)
+    # add a resetting image here
     print('Resetting...')
     leds.blink(n=3)
     sleep(reset_delay)
