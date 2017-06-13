@@ -100,8 +100,8 @@ def resetCamera():
     print('Resetting...')
     leds.blink(n=3)
     sleep(reset_delay)
-    pygame.quit()
-    # instead of killing pygame need to find a reset option
+    fireUp()
+
 
 def displayInstructions(instruction_file): # load, convert and display the instructions file
     img = pygame.image.load(instruction_file).convert()
