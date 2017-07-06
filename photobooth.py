@@ -96,9 +96,10 @@ def resetCamera():
     print('All done')
     displayInstructions(instruction_path + 'all_done.png')
     sleep(3)
+    leds.value = (1,1,1,0) # all red leds after photos finished
     print('Resetting...')
     displayInstructions(instruction_path + 'resetting.png')
-    leds.blink(n=3)
+    leds.blink(n=5)
     sleep(reset_delay)
     fireUp()
 
