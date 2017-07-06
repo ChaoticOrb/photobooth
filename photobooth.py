@@ -21,7 +21,7 @@ camera = PiCamera()
 big_button = Button(17)
 shutdown_btn = Button(23, hold_time=2)
 # red = LED(27) # red led
-leds = LEDBoard(27, 22, 5)
+leds = LEDBoard(27, 22, 5, 19) # red, red, red, green
 
 total_photos = 3 # total number of photos to take
 capture_delay = 3 # delay between taking photos
@@ -51,9 +51,9 @@ def shutdown(): # close everything on red button hold for 2 seconds
     pygame.quit()
     sys.exit()
 shutdown_btn.when_held = shutdown
-             
+
 def fireUp():
-    leds.off()
+    leds.value = (0,0,0,1) # green led on
     print('Push the button instruction')
     displayInstructions(instruction_path + 'button_push.png')
     big_button.wait_for_press()
@@ -72,6 +72,7 @@ def fireUp():
 
 def takePhotos():
     try:
+        leds.value = (1,0,0,0) # first red led whilst taking photos
         timestamp = datetime.now().strftime('%d%m%Y-%H%M%S') # create datetime for file naming
         camera.annotate_foreground = Color(text_color)
         camera.annotate_background = Color(bg_color)
@@ -91,18 +92,15 @@ def takePhotos():
         resetCamera()
 
 def resetCamera():
+    leds.value = (1,1,0,0) # first two red leds after photos finished
+    print('All done')
     displayInstructions(instruction_path + 'all_done.png')
-    leds.value = (1,0,0)
-    sleep(1)
-    leds.value = (1,1,0)
-    sleep(1)
-    leds.value = (1,1,1)
-    sleep(1)
+    sleep(3)
     print('Resetting...')
+    displayInstructions(instruction_path + 'resetting.png')
     leds.blink(n=3)
     sleep(reset_delay)
     fireUp()
-
 
 def displayInstructions(instruction_file): # load, convert and display the instructions file
     img = pygame.image.load(instruction_file).convert()
@@ -115,4 +113,3 @@ def clearInstructions():
 
 # start photobooth
 fireUp()
-
