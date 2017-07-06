@@ -31,7 +31,6 @@ res_h = 480 # height of screen resolution
 text_size = 60 # size of annotated text
 text_color = '#fff' # colour of annotated text
 bg_color = '#000' # colour of annotated text background
-test_server = 'www.google.com' # server location to check for network
 reset_delay = 5
 save_path = '/home/pi/captures/'
 instruction_path = '/home/pi/github/photobooth/'
@@ -95,12 +94,12 @@ def resetCamera():
     leds.value = (1,1,0,0) # first two red leds after photos finished
     print('All done')
     displayInstructions(instruction_path + 'all_done.png')
-    sleep(3)
+    sleep(6)
     leds.value = (1,1,1,0) # all red leds after photos finished
     print('Resetting...')
     displayInstructions(instruction_path + 'resetting.png')
-    leds.blink(n=5)
     sleep(reset_delay)
+    leds.blink(n=3)
     fireUp()
 
 def displayInstructions(instruction_file): # load, convert and display the instructions file
