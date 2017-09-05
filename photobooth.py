@@ -53,27 +53,7 @@ def shutdown():
 shutdown_btn = Button(23, hold_time=2)
 shutdown_btn.when_held = shutdown
 
-
 def fireUp():
-<<<<<<< HEAD
-    leds.value = (0,0,0,1) # green led on
-    print('Push the button instruction')
-    displayInstructions(instruction_path + 'button_push.png')
-    big_button.wait_for_press()
-    print('Button pressed')
-    displayInstructions(instruction_path + 'countdown_explanation.png')
-    sleep(5)
-    displayInstructions(instruction_path + 'get_posed.png')
-    sleep(5)
-    clearInstructions()
-    sleep(1)
-    camera.vflip = False # change if camera is mounted upside down
-    camera.hflip = True # change if camera display is flipped
-    camera.resolution = camera.MAX_RESOLUTION
-    camera.start_preview(resolution=(res_w, res_h))
-    print('Camera preview turned on')
-    takePhotos()
-=======
     try:
         leds.off()
         sleep(1)
@@ -96,7 +76,6 @@ def fireUp():
     except:
         print('FireUp failed to launch - exiting')
         sys.exit(1)
->>>>>>> shutdown
 
 def takePhotos():
     try:
