@@ -64,6 +64,7 @@ def fireUp():
     clearInstructions()
     sleep(1)
     camera.vflip = False # change if camera is mounted upside down
+    camera.hflip = True # change if camera display is flipped
     camera.resolution = camera.MAX_RESOLUTION
     camera.start_preview(resolution=(res_w, res_h))
     print('Camera preview turned on')
