@@ -13,7 +13,7 @@ def shutdown():
     print('Button pushed - shutting down...')
     check_call(['sudo', 'poweroff'])
 
-shutdown_btn = Button(23, hold_time=5)
-shutdown_btn.when_held = shutdown
+shutdown_btn = Button(23)
+shutdown_btn.when_pressed = shutdown
 
 pause()
