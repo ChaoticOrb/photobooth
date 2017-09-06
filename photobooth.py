@@ -11,7 +11,6 @@ import sys
 from time import sleep
 from datetime import datetime
 from gpiozero import Button, LED, LEDBoard
-from subprocess import check_call
 from signal import pause
 
 #############################
@@ -21,9 +20,7 @@ camera = PiCamera()
 
 # hardware
 big_button = Button(17)
-# red = LED(27) # red led
 leds = LEDBoard(27, 22, 5, 19) # red, red, red, green
-
 total_photos = 3 # total number of photos to take
 capture_delay = 3 # delay between taking photos
 countdown = 3 # countdown for each photo
@@ -46,12 +43,6 @@ pygame.mouse.set_visible(False)
 #############################
 # functions
 #############################
-
-def shutdown():
-    check_call(['sudo', 'poweroff'])
-
-shutdown_btn = Button(23, hold_time=2)
-shutdown_btn.when_held = shutdown
 
 def fireUp():
     try:
