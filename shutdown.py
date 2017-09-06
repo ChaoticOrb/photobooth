@@ -1,3 +1,10 @@
+#!/usr/bin/env python
+
+#############################
+# photobooth.py
+# created by ChaoticOrb
+#############################
+
 from gpiozero import Button
 from subprocess import check_call
 from signal import pause
