@@ -20,7 +20,6 @@ camera = PiCamera()
 
 # hardware
 big_button = Button(17)
-kill_pygame = Button(17, hold_time=10)
 leds = LEDBoard(27, 22, 5, 19) # red, red, red, green
 total_photos = 3 # total number of photos to take
 capture_delay = 3 # delay between taking photos
@@ -39,16 +38,11 @@ pygame.init()
 img = pygame.display.set_mode((res_w,res_h), pygame.FULLSCREEN)
 screen = pygame.display.get_surface()
 pygame.mouse.set_visible(False)
-kill_pygame.when_held = killProg
 
 
 #############################
 # functions
 #############################
-def killProg():
-    pygame.quit()
-    sys.exit()
-
 def fireUp():
     try:
         leds.off()
