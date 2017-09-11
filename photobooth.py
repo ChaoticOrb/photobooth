@@ -45,24 +45,30 @@ pygame.mouse.set_visible(False)
 #############################
 def fireUp():
     try:
-        leds.off()
-        sleep(1)
-        leds.value = (0,0,0,1) # green led on
-        print('Push the button instruction')
-        displayInstructions(instruction_path + 'button_push.png')
-        big_button.wait_for_press()
-        print('Button pressed')
-        displayInstructions(instruction_path + 'countdown_explanation.png')
-        sleep(5)
-        displayInstructions(instruction_path + 'get_posed.png')
-        sleep(5)
-        clearInstructions()
-        sleep(1)
-        camera.vflip = False # change if camera is mounted upside down
-        camera.resolution = camera.MAX_RESOLUTION
-        camera.start_preview(resolution=(res_w, res_h))
-        print('Camera preview turned on')
-        takePhotos()
+        while True:
+            for event in pygame.event.get():
+                if event.type == KEYUP:
+                    if event.key == K_ESCAPE:
+                        pygame.quit()
+                        sys.exit()
+            leds.off()
+            sleep(1)
+            leds.value = (0,0,0,1) # green led on
+            print('Push the button instruction')
+            displayInstructions(instruction_path + 'button_push.png')
+            big_button.wait_for_press()
+            print('Button pressed')
+            displayInstructions(instruction_path + 'countdown_explanation.png')
+            sleep(5)
+            displayInstructions(instruction_path + 'get_posed.png')
+            sleep(5)
+            clearInstructions()
+            sleep(1)
+            camera.vflip = False # change if camera is mounted upside down
+            camera.resolution = camera.MAX_RESOLUTION
+            camera.start_preview(resolution=(res_w, res_h))
+            print('Camera preview turned on')
+            takePhotos()
     except:
         print('FireUp failed to launch - exiting')
         sys.exit(1)
