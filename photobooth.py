@@ -8,7 +8,6 @@
 from picamera import PiCamera, Color
 import pygame
 import sys
-import socket
 from time import sleep
 from datetime import datetime
 from gpiozero import Button, LED, LEDBoard
@@ -33,7 +32,6 @@ bg_color = '#000' # colour of annotated text background
 reset_delay = 5
 save_path = '/home/pi/captures/'
 instruction_path = '/home/pi/github/photobooth/'
-test_server = 'www.google.com'
 
 # get pygame ready
 pygame.init()
@@ -45,21 +43,6 @@ pygame.mouse.set_visible(False)
 #############################
 # functions
 #############################
-def checkNetwork():
-    try:
-        host = socket.gethostbyname(test_server)
-        s = socket.create_connection((host, 80), 2)
-        return True
-        fireUp()
-    except:
-        confirmation = input('Network connection not available, do you want to continue?')
-        if confirmation == 'y':
-            fireUp()
-        else:
-            pygame.exit()
-            sys.exit()
-
-
 def fireUp():
     try:
         leds.off()
@@ -126,4 +109,4 @@ def clearInstructions():
     pygame.display.flip()
 
 # start photobooth
-checkNetwork()
+fireUp()
