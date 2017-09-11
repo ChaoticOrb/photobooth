@@ -126,4 +126,4 @@ def clearInstructions():
     pygame.display.flip()
 
 # start photobooth
-fireUp()
+checkNetwork()
