@@ -8,6 +8,7 @@
 from picamera import PiCamera, Color
 import pygame
 import sys
+import socket
 from time import sleep
 from datetime import datetime
 from gpiozero import Button, LED, LEDBoard
@@ -32,6 +33,7 @@ bg_color = '#000' # colour of annotated text background
 reset_delay = 5
 save_path = '/home/pi/captures/'
 instruction_path = '/home/pi/github/photobooth/'
+test_server = 'www.google.com'
 
 # get pygame ready
 pygame.init()
@@ -43,36 +45,41 @@ pygame.mouse.set_visible(False)
 #############################
 # functions
 #############################
+def checkNetwork():
+    try:
+        host = socket.gethostbyname(test_server)
+        s = socket.create_connection((host, 80), 2)
+        return True
+        fireUp()
+    except:
+        confirmation = input('Network connection not available, do you want to continue?')
+        if confirmation == 'y':
+            fireUp()
+        else:
+            pygame.exit()
+            sys.exit()
+
+
 def fireUp():
     try:
-        running = True
-        while running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-                    break
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
-                        break
-                    pygame.display.flip()
-            leds.off()
-            sleep(1)
-            leds.value = (0,0,0,1) # green led on
-            print('Push the button instruction')
-            displayInstructions(instruction_path + 'button_push.png')
-            big_button.wait_for_press()
-            print('Button pressed')
-            displayInstructions(instruction_path + 'countdown_explanation.png')
-            sleep(5)
-            displayInstructions(instruction_path + 'get_posed.png')
-            sleep(5)
-            clearInstructions()
-            sleep(1)
-            camera.vflip = False # change if camera is mounted upside down
-            camera.resolution = camera.MAX_RESOLUTION
-            camera.start_preview(resolution=(res_w, res_h))
-            print('Camera preview turned on')
-            takePhotos()
+        leds.off()
+        sleep(1)
+        leds.value = (0,0,0,1) # green led on
+        print('Push the button instruction')
+        displayInstructions(instruction_path + 'button_push.png')
+        big_button.wait_for_press()
+        print('Button pressed')
+        displayInstructions(instruction_path + 'countdown_explanation.png')
+        sleep(5)
+        displayInstructions(instruction_path + 'get_posed.png')
+        sleep(5)
+        clearInstructions()
+        sleep(1)
+        camera.vflip = False # change if camera is mounted upside down
+        camera.resolution = camera.MAX_RESOLUTION
+        camera.start_preview(resolution=(res_w, res_h))
+        print('Camera preview turned on')
+        takePhotos()
     except:
         print('FireUp failed to launch - exiting')
         sys.exit(1)
