@@ -47,7 +47,7 @@ def fireUp():
     try:
         while True:
             for event in pygame.event.get():
-                if event.type == KEYUP:
+                if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         pygame.quit()
                         sys.exit()
