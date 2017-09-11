@@ -39,7 +39,7 @@ pygame.init()
 img = pygame.display.set_mode((res_w,res_h), pygame.FULLSCREEN)
 screen = pygame.display.get_surface()
 pygame.mouse.set_visible(False)
-big_button.when_held = killProg
+kill_pygame.when_held = killProg
 
 
 #############################
