@@ -34,6 +34,7 @@ save_path = '/home/pi/captures/'
 instruction_path = '/home/pi/github/photobooth/'
 
 # get pygame ready
+input('Press any button to continue')
 pygame.init()
 img = pygame.display.set_mode((res_w,res_h), pygame.FULLSCREEN)
 screen = pygame.display.get_surface()
@@ -109,5 +110,4 @@ def clearInstructions():
     pygame.display.flip()
 
 # start photobooth
-input('Press any button to continue')
 fireUp()
