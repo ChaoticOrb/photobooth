@@ -45,16 +45,16 @@ pygame.mouse.set_visible(False)
 #############################
 def fireUp():
     try:
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-                break
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
                     break
-                pygame.display.flip()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        break
+                    pygame.display.flip()
             leds.off()
             sleep(1)
             leds.value = (0,0,0,1) # green led on
