@@ -33,6 +33,11 @@ reset_delay = 5
 save_path = '/home/pi/captures/'
 instruction_path = '/home/pi/github/photobooth/'
 
+# get pygame ready
+pygame.init()
+img = pygame.display.set_mode((res_w,res_h), pygame.FULLSCREEN)
+screen = pygame.display.get_surface()
+pygame.mouse.set_visible(False)
 
 #############################
 # functions
@@ -40,12 +45,6 @@ instruction_path = '/home/pi/github/photobooth/'
 def delayedStart():
     print('Waiting for start up button push...')
     big_button.wait_for_press()
-    # get pygame ready
-    pygame.init()
-    img = pygame.display.set_mode((res_w,res_h), pygame.FULLSCREEN)
-    screen = pygame.display.get_surface()
-    pygame.mouse.set_visible(False)
-    sleep(1)
     fireUp()
 
 def fireUp():
