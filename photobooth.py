@@ -20,6 +20,7 @@ camera = PiCamera()
 
 # hardware
 big_button = Button(17)
+kill_pygame = Button(17, hold_time=10)
 leds = LEDBoard(27, 22, 5, 19) # red, red, red, green
 total_photos = 3 # total number of photos to take
 capture_delay = 3 # delay between taking photos
@@ -33,22 +34,21 @@ reset_delay = 5
 save_path = '/home/pi/captures/'
 instruction_path = '/home/pi/github/photobooth/'
 
-def delayedStart():
-    print('Waiting for start up button push...')
-    big_button.wait_for_press()
-    readyPyGame()
-
 # get pygame ready
-def readyPyGame():
-    pygame.init()
-    img = pygame.display.set_mode((res_w,res_h), pygame.FULLSCREEN)
-    screen = pygame.display.get_surface()
-    pygame.mouse.set_visible(False)
-    fireUp()
+pygame.init()
+img = pygame.display.set_mode((res_w,res_h), pygame.FULLSCREEN)
+screen = pygame.display.get_surface()
+pygame.mouse.set_visible(False)
+big_button.when_held = killProg
+
 
 #############################
 # functions
 #############################
+def killProg():
+    pygame.quit()
+    sys.exit()
+
 def fireUp():
     try:
         leds.off()
@@ -115,4 +115,4 @@ def clearInstructions():
     pygame.display.flip()
 
 # start photobooth
-delayedStart()
+fireUp()
