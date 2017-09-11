@@ -43,6 +43,10 @@ pygame.mouse.set_visible(False)
 #############################
 # functions
 #############################
+def delayedStart():
+    print('Waiting for start up button push...')
+    big_button.wait_for_press()
+    fireUp()
 
 def fireUp():
     try:
@@ -110,4 +114,4 @@ def clearInstructions():
     pygame.display.flip()
 
 # start photobooth
-fireUp()
+delayedStart()
