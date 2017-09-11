@@ -109,4 +109,5 @@ def clearInstructions():
     pygame.display.flip()
 
 # start photobooth
+input('Press any button to continue')
 fireUp()
